@@ -36,6 +36,11 @@ const UserSchema = new Schema({
         required: true,
         lowercase:true
     },
+    role:{
+        type: 'string',
+        required: true,
+        lowercase:true
+    },
     baneado:{
         type: 'Boolean',
         required: true
