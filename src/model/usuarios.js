@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema , model } = mongoose;
+const bcryptjs = require('bcryptjs')
 
 const UserSchema = new Schema({
     nombre: {
@@ -11,12 +12,12 @@ const UserSchema = new Schema({
         type: 'string',
         lowercase:true
     },
-    apellidpP: {
+    apellidoP: {
         type: 'string',
         required:true,
         lowercase:true
     },
-    apellidpM: {
+    apellidoM: {
         type: 'string',
         required:true,
         lowercase:true
@@ -44,6 +45,12 @@ const UserSchema = new Schema({
     timestamps: true
 });
 
+UserSchema.pre( 'save' , function(next) {
+    const encriptarContraseña = bcryptjs.hashSync( this.contraseña , 12 );
+    this.contraseña = encriptarContraseña;
+    next()
+} );
+
 const modelUser = model('Usuarios' , UserSchema);
 
-module.exports = modelUser
+module.exports = modelUser;

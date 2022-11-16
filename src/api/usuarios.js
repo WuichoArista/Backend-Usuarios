@@ -1,7 +1,9 @@
 const express = require('express');
 const ruta = express.Router();
-const { findExistingUser , addUser } = require('../controller/controller');
+const { findExistingUser } = require('../controller/controller');
+const userService = require('../auth/user')
 
+const service = new userService()
 
 ruta.post( '/new' , async( req , res) => {
     console.clear();
@@ -9,9 +11,14 @@ ruta.post( '/new' , async( req , res) => {
     const {email} = user;
     const existingUser = await findExistingUser({email});
     if(existingUser) return res.sendStatus(400);
-    const newUser = await addUser(user);
-    newUser.contraseña = undefined;
-    res.status(200).send(`El usuario ${newUser.nombre} sea creado`);
+
+    const newUser = await service.createUser(user)
+    res.status(200).send(newUser);
+});
+
+ruta.post( '/login' , async( req , res ) => {
+    console.clear();
+    const { email , contraseña } = req.body;
 });
 
 module.exports = ruta;
