@@ -1,8 +1,7 @@
 const express = require('express');
 const ruta = express.Router();
+const rutaUsuarios = require('./usuarios')
 
-ruta.get('/' , ( req , res ) => {
-    res.send('Estas conectado a la api')
-})
+ruta.use('/usuarios' , rutaUsuarios);
 
-module.exports = ruta
+module.exports = ruta;
