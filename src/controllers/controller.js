@@ -6,8 +6,14 @@ const addUser = async( usuario ) => {
     return nuevoUsuario;
 };
 
+//Con populate mostramos la informacion de los ids de role relacionados por lo que recomiendo separarlo para logearse y devuelva el token solo con los ids y para mi perfil donde ya mostraria la info de esos ids
 const findExistingUser = async( parametro ) => {
     const usuario = await modelUser.findOne(parametro);
+    return usuario;
+};
+
+const datosUserPerfil = async( parametro ) => {
+    const usuario = await modelUser.findOne(parametro).populate('role');
     return usuario;
 };
 
@@ -26,5 +32,6 @@ module.exports = {
     addUser,
     findExistingUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    datosUserPerfil
 }

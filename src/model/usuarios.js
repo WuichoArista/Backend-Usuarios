@@ -48,11 +48,10 @@ const UserSchema = new Schema({
         required: true,
         lowercase:true
     },
-    role:{
-        type: String,
-        required: true,
-        lowercase:true
-    },
+    role:[{
+        ref: 'roles',
+        type: Schema.Types.ObjectId
+    }],
     permisos:{
         type: Array,
         required: true,

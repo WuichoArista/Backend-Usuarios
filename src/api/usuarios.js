@@ -1,11 +1,12 @@
 const express = require('express');
 const ruta = express.Router();
-const { findExistingUser , updateUser , deleteUser } = require('../controllers/controller');
+const { findExistingUser , updateUser , deleteUser , datosUserPerfil } = require('../controllers/controller');
 const autorizacion = require('../middlewares/autorizacion');
 const createUser = require('../helpers/createUser');
 const login = require('../helpers/login');
 const verifyPasword = require('../middlewares/passwordVerify');
 const encriptarContraseña = require('../helpers/encriptarContraseña')
+const { agregarRoles } = require('../controllers/roles.controller')
 const jwt = require('jsonwebtoken')
 
 const SECRET = process.env.SECRET
@@ -15,11 +16,19 @@ const SECRET = process.env.SECRET
 ruta.post( '/new' , async( req , res) => {
     console.clear();
     const user = req.body;
+    const roles = user.role;
     const {email} = user;
     const existingUser = await findExistingUser({email});
     if(existingUser) return res.sendStatus(400);
+    let idRoles;
+    if(roles){
+         idRoles = await agregarRoles( { nombre : {$in: roles}} );
+    }else{
+         idRoles = await agregarRoles( {nombre: 'user'} );
+    };
+    user.role = idRoles;
     const newUser = await createUser(user);
-    res.status(200).send(newUser);
+    res.status(200).send(newUser);  
 });
 
 //Login con email y contraseña.
@@ -54,7 +63,7 @@ ruta.get( '/mi-perfil' , async( req , res ) => {
     if( req.permissions.indexOf(url) === -1) return res.sendStatus(401);
 
     const { id } = req.user;
-    const user = await findExistingUser({_id :id});
+    const user = await datosUserPerfil({_id :id});
     if( !user ) return res.sendStatus(400);
     user.contraseña = undefined;
     return res.status(200).send(user);
