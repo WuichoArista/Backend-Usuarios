@@ -3,7 +3,7 @@ const ruta = express.Router();
 const rutaUsuarios = require('./usuarios')
 const rutaPublica = require('./publica')
 const rutaAutenticadoAutorizado = require('./autenticado-autorizado')
-const rutaArchivos = require('./archivos')
+const rutaArchivos = require('./archivos.routes')
 
 ruta.use('/autenticado-autorizado' , rutaAutenticadoAutorizado);
 ruta.use('/publica' , rutaPublica);
