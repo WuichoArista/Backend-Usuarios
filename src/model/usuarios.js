@@ -4,45 +4,62 @@ const bcryptjs = require('bcryptjs')
 
 const UserSchema = new Schema({
     nombre: {
-        type: 'string',
+        type: String,
         required:true,
-        lowercase:true
+        lowercase:true,
+        minLength:2,
+        maxLength:20
+
     },
     segundoNombre: {
-        type: 'string',
-        lowercase:true
+        type: String,
+        lowercase:true,
+        minLength:2,
+        maxLength:20
+
     },
     apellidoP: {
-        type: 'string',
+        type: String,
         required:true,
-        lowercase:true
+        lowercase:true,
+        minLength:4,
+        maxLength:20
+
     },
     apellidoM: {
-        type: 'string',
+        type: String,
         required:true,
-        lowercase:true
+        lowercase:true,
+        minLength:4,
+        maxLength:20
+
     },
     email:{
-        type: 'string',
+        type: String,
         required: true,
         lowercase:true
     },
     contraseña:{
-        type: 'string',
+        type: String,
         required: true
     },
     rango:{
-        type: 'string',
+        type: String,
         required: true,
         lowercase:true
     },
     role:{
-        type: 'string',
+        type: String,
+        required: true,
+        lowercase:true
+    },
+    permisos:{
+        type: Array,
         required: true,
         lowercase:true
     },
     baneado:{
-        type: 'Boolean',
+        type: Boolean,
         required: true
     }
 },{
