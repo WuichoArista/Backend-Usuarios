@@ -10,7 +10,7 @@ const autorizacion = ( req , res , next ) => {
     if( !token ) return res.sendStatus(401);
 
     try {
-        const decoded = jwt.decode( token , SECRET);
+        const decoded = jwt.verify( token , SECRET);
         req.user = decoded.data;
         req.permissions = decoded.data.permisos;
         next();
